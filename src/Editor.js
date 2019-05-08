@@ -9,13 +9,17 @@ import 'brace/mode/sql';
 import 'brace/theme/sqlserver';
 
 class Editor extends React.Component {
-
-    constructor(dependencies) {
-        super();
+    constructor(things) {
+        super(things);
     }
 
-    handleChange(){
-        console.log("changed");
+    handleChange(value){
+        const parser = require('js-sql-parser');
+        try {
+            console.log("changed " + parser.parse(value));
+        } catch(err) {
+            console.log("not parseable");
+        }
     }
     render() {
         return (
