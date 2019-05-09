@@ -48,7 +48,7 @@ class Editor extends React.Component {
                                 highlightActiveLine={true}
                                 mode="sql"
                                 name="codeEditor"
-                                onChange={this.hafndleChange}
+                                onChange={this.handleChange}
                                 showGutter={true}
                                 showPrintMargin={true}
                                 theme="sqlserver"
