@@ -10,7 +10,8 @@
     "react-ace": "^6.5.0",
     "react-virtualized": "^9.21.0",
     "moment": "^2.24.0",
-    "js-sql-parser": "^1.0.7"
+    "js-sql-parser": "^1.0.7",
+    "lodash": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

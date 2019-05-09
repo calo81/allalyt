@@ -1,52 +1,68 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Measure from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace';
 import 'brace/ext/searchbox';
 import 'brace/mode/sql';
 import 'brace/theme/sqlserver';
+import 'brace/ext/language_tools';
+import _ from 'lodash';
+
 
 class Editor extends React.Component {
-    constructor(things) {
+
+    customAceEditorCompleter = {
+        getCompletions: (editor, session, caretPosition2d, prefix, callback) => {
+            console.log(prefix);
+            let wordList = ["select", "from"];
+            callback(null, wordList.map(function(word) {
+                return {
+                    caption: word,
+                    value: word,
+                    meta: "static"
+                };
+            }));
+        },
+        getDocTooltip: (item) => {
+        }
+    };
+
+    constructor(things){
         super(things);
     }
-
-    handleChange(value){
+    handleChange(value)  {
         const parser = require('js-sql-parser');
         try {
             console.log("changed " + parser.parse(value));
         } catch(err) {
             console.log("not parseable");
         }
-    }
+    };
     render() {
         return (
             <div className="Editor">
-                <Measure bounds>
-                    {({ measureRef }) => (
-                        <div ref={measureRef} className="h-100 w-100">
                             <AceEditor
                                 focus={true}
                                 editorProps={{ $blockScrolling: Infinity }}
-                                enableBasicAutocompletion
-                                enableLiveAutocompletion
                                 height={300 + 'px'}
                                 highlightActiveLine={true}
                                 mode="sql"
-                                name="query-ace-editor"
-                                onChange={this.handleChange}
+                                name="codeEditor"
+                                onChange={this.hafndleChange}
                                 showGutter={true}
                                 showPrintMargin={true}
                                 theme="sqlserver"
                                 readOnly={false}
                                 value=""
                                 width={500 + 'px'}
+                                setOptions={{
+                                    enableBasicAutocompletion: [this.customAceEditorCompleter],
+                                    enableLiveAutocompletion: [this.customAceEditorCompleter],
+                                    showLineNumbers: true,
+                                    enableSnippets: true,
+                                    tabSize: 2
+                                }}
                             />
-                        </div>
-                    )}
-                </Measure>
             </div>
         );
     }
